@@ -27,7 +27,7 @@ pub fn main() {
     let mut settings = CrosstermWindowSettings::default();
     settings.set_title("Assets example");
 
-    App::build()
+    App::new()
         // Add our window settings
         .insert_resource(settings)
         // Set some options in bevy to make our program a little less resource intensive - it's just a terminal game

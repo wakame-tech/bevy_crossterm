@@ -3,6 +3,7 @@ use bevy::prelude::*;
 
 use bevy_crossterm::prelude::*;
 
+#[derive(Component)]
 pub struct Velocity {
     pub x: i32,
     pub y: i32,

@@ -20,7 +20,7 @@ pub fn main() {
     let mut settings = CrosstermWindowSettings::default();
     settings.set_title("Redraw example");
 
-    App::build()
+    App::new()
         .insert_resource(settings)
         .insert_resource(DefaultTaskPoolOptions::with_num_threads(1))
         // 60Hz update is probably a bit gratuitous for this but eh
@@ -35,6 +35,7 @@ pub fn main() {
 // 5x5 box of spaces
 static BIG_BOX: &str = "       \n       \n       ";
 
+#[derive(Component)]
 struct Tag;
 
 fn startup_system(mut commands: Commands, window: Res<CrosstermWindow>, mut cursor: ResMut<Cursor>, mut sprites: ResMut<Assets<Sprite>>, mut stylemaps: ResMut<Assets<StyleMap>>) {

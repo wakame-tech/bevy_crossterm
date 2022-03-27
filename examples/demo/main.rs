@@ -41,7 +41,7 @@ pub fn main() {
     let mut settings = CrosstermWindowSettings::default();
     settings.set_title("bevy_crossterm demo");
 
-    App::build()
+    App::new()
         .insert_resource(settings)
         .insert_resource(ScheduleRunnerSettings::run_loop(time::Duration::from_millis(6)))
         .add_plugins(DefaultPlugins)
