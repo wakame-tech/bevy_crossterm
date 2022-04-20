@@ -20,7 +20,7 @@ pub fn main() {
         // possible - 20 fps should be more than enough for a scene that never changes
         .insert_resource(ScheduleRunnerSettings::run_loop(time::Duration::from_millis(50)))
         .add_plugins(DefaultCrosstermPlugins)
-        .add_startup_system(startup_system.system())
+        .add_startup_system(startup_system)
         .run();
 }
 

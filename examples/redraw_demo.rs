@@ -1,6 +1,7 @@
 use std::time;
 
-use bevy::app::{AppExit, Events, ScheduleRunnerSettings};
+use bevy::app::{AppExit, ScheduleRunnerSettings};
+use bevy::ecs::event::Events;
 use bevy::prelude::*;
 
 use bevy_crossterm::prelude::*;
@@ -27,8 +28,8 @@ pub fn main() {
         .insert_resource(ScheduleRunnerSettings::run_loop(time::Duration::from_millis(16)))
         .insert_resource(Timer::new(std::time::Duration::from_millis(250), true))
         .add_plugins(DefaultCrosstermPlugins)
-        .add_startup_system(startup_system.system())
-        .add_system(update.system())
+        .add_startup_system(startup_system)
+        .add_system(update)
         .run();
 }
 

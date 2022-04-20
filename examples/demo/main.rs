@@ -1,7 +1,8 @@
 use std::time;
 
-use bevy::app::{AppExit, Events, ScheduleRunnerSettings};
+use bevy::app::{AppExit, ScheduleRunnerSettings};
 use bevy::asset::LoadState;
+use bevy::ecs::event::Events;
 use bevy::prelude::*;
 
 use bevy_crossterm::prelude::*;
@@ -46,25 +47,25 @@ pub fn main() {
         .insert_resource(ScheduleRunnerSettings::run_loop(time::Duration::from_millis(6)))
         .add_plugins(DefaultPlugins)
         .add_plugin(CrosstermPlugin)
-        .add_startup_system(demo_setup.system())
-        .add_startup_system(loading_system.system())
+        .add_startup_system(demo_setup)
+        .add_startup_system(loading_system)
         .add_state(GameState::Loading)
         .insert_resource(State::new(GameState::Loading))
-        .add_system_set(SystemSet::on_update(GameState::Loading).with_system(check_for_loaded.system()))
-        .add_system_set(SystemSet::on_enter(GameState::Title).with_system(title::setup.system()))
-        .add_system_set(SystemSet::on_update(GameState::Title).with_system(just_wait_and_advance.system()))
+        .add_system_set(SystemSet::on_update(GameState::Loading).with_system(check_for_loaded))
+        .add_system_set(SystemSet::on_enter(GameState::Title).with_system(title::setup))
+        .add_system_set(SystemSet::on_update(GameState::Title).with_system(just_wait_and_advance))
         // .add_system_set(SystemSet::on_exit(GameState::Title).with_system(simple_teardown.system()))
-        .add_system_set(SystemSet::on_enter(GameState::Sprites).with_system(sprites::setup.system()))
-        .add_system_set(SystemSet::on_update(GameState::Sprites).with_system(just_wait_and_advance.system()))
+        .add_system_set(SystemSet::on_enter(GameState::Sprites).with_system(sprites::setup))
+        .add_system_set(SystemSet::on_update(GameState::Sprites).with_system(just_wait_and_advance))
         // .add_system_set(SystemSet::on_exit(GameState::Sprites).with_system(simple_teardown.system()))
-        .add_system_set(SystemSet::on_enter(GameState::Colors).with_system(colors::setup.system()))
-        .add_system_set(SystemSet::on_update(GameState::Colors).with_system(just_wait_and_advance.system()))
+        .add_system_set(SystemSet::on_enter(GameState::Colors).with_system(colors::setup))
+        .add_system_set(SystemSet::on_update(GameState::Colors).with_system(just_wait_and_advance))
         // .add_system_set(SystemSet::on_exit(GameState::Colors).with_system(simple_teardown.system()))
-        .add_system_set(SystemSet::on_enter(GameState::Animation).with_system(animation::setup.system()))
-        .add_system_set(SystemSet::on_update(GameState::Animation).with_system(animation::update.system()))
+        .add_system_set(SystemSet::on_enter(GameState::Animation).with_system(animation::setup))
+        .add_system_set(SystemSet::on_update(GameState::Animation).with_system(animation::update))
         // .add_system_set(SystemSet::on_exit(GameState::Animation).with_system(simple_teardown.system()))
-        .add_system_set(SystemSet::on_enter(GameState::Finale).with_system(finale::setup.system()))
-        .add_system_set(SystemSet::on_update(GameState::Finale).with_system(just_wait_and_advance.system()))
+        .add_system_set(SystemSet::on_enter(GameState::Finale).with_system(finale::setup))
+        .add_system_set(SystemSet::on_update(GameState::Finale).with_system(just_wait_and_advance))
         // .add_system_set(SystemSet::on_exit(GameState::Finale).with_system(simple_teardown.system()))
         .run();
 }
@@ -104,7 +105,7 @@ pub fn detect_keypress(keys: &ResMut<Events<KeyEvent>>) -> bool {
 }
 
 // Simple update function that most screens will use
-pub fn just_wait_and_advance(mut state: ResMut<State<GameState>>, mut app_exit: ResMut<Events<AppExit>>, mut keys: ResMut<Events<KeyEvent>>, mut commands: Commands, mut scene_root: ResMut<Entity>) {
+pub fn just_wait_and_advance(mut state: ResMut<State<GameState>>, mut app_exit: ResMut<Events<AppExit>>, mut keys: ResMut<Events<KeyEvent>>, commands: Commands, scene_root: ResMut<Entity>) {
     if detect_keypress(&keys) {
         if let Some(next_stage) = state.current().next_state() {
             state.push(next_stage).unwrap();
